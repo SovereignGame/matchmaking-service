@@ -10,15 +10,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/matchmakingService")
 class MatchController(private val matchService: MatchService) {
 
-    @PostMapping("/matchWith/{username}/")
-    fun postMatchAgainstUser(@RequestHeader("Username") username:String, @PathVariable opponent: String) {
-
-/*
-        Respons: Den informasjonen som trengs for å koble seg opp mot den aktuelle økten hos GameInstanceService.
-        “.matchmaking/${username}”
-        Det må være funksjonalitet slik at når bruker går ut av applikasjonen, så ender økten, og den økten fjernes fra MatchmakingDB. Om det er to spillere på brettet, fjernes bare den som går ut av applikasjonen.
-*/
+    @PostMapping("/matchWith/{boardInvaderUsername}/")
+    fun postMatchAgainstUser(@RequestHeader("Username") boardInvaderUsername:String, @PathVariable boardOwnerUsername: String) {
+        matchService.createNewMatch(boardInvaderUsername,boardOwnerUsername)
     }
+
     @DeleteMapping("/{username}")
     fun deleteMatch(@PathVariable("username") username:String){
 
